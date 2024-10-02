@@ -41,6 +41,7 @@ GIF created with ... LICEcap
 ## Notes
 
 Describe any challenges encountered while building the app or any additional context you'd like to add.
+- Plan interactions with backend based on client navigation.
 
 ## License
 
