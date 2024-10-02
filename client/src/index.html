@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Nintendo Switch Games List</title>
+</head>
+<body>
+    <h1>Nintendo Switch Games List</h1>
+    <ul id="gameList"></ul>
+
+    <script>
+        // Fetch games from the server and populate the list
+        fetch('/games')
+            .then(response => response.json())
+            .then(games => {
+                const gameList = document.getElementById('gameList');
+                games.forEach(game => {
+                    const listItem = document.createElement('li');
+                    const gameTitleFormatted = encodeURIComponent(game.title); // Encode the title for URL
+                    listItem.innerHTML = `<a href="gamedetails.html?title=${gameTitleFormatted}">${game.title}</a>  <img src="${game.image}" alt="${game.title}" />`;
+                   
+                    gameList.appendChild(listItem);
+                });
+            })
+            .catch(err => console.error(err));
+    </script>
+</body>
+</html>

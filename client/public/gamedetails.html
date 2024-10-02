@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Details</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+</head>
+<body>
+    <h1>Game Details</h1>
+    <div id="gameDetails"></div>
+
+    <script>
+        // Function to get the query parameter value
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Fetch game details based on the title from the URL
+        const gameTitle = getQueryParameter('title');
+        fetch(`/game/${gameTitle}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Game not found');
+                }
+                return response.json();
+            })
+            .then(game => {
+                const gameDetails = document.getElementById('gameDetails');
+                gameDetails.innerHTML = `
+                    <h2>${game.title}</h2>
+                    <img src="${game.image}" alt="${game.title}" />
+                    <p><strong>Genre:</strong> ${game.genre}</p>
+                    <p><strong>Release Date:</strong> ${game.releaseDate}</p>
+                    <p><strong>Developer:</strong> ${game.developer}</p>
+                    <p><strong>Rating:</strong> ${game.rating}</p>
+                    <p><strong>Copies Sold:</strong> ${game.copiesSold} million</p>
+                    <p><strong>Description:</strong> ${game.description}</p>
+                `;
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('gameDetails').innerHTML = '<p>Game not found.</p>';
+            });
+    </script>
+</body>
+</html>
